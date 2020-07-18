@@ -2,14 +2,15 @@ const express = require('express');
 
 const calendarRouter = express.Router();
 
-const articlesPath = '/api/calendarData/articles';
-const titlePath = '/api/calendarData/title';
+const articlesPath = '/articles';
+const titlePath = '/title';
 
 // temp
 let title = 'titleSamp';
 const articles = [{title: '1st'}, {title: '2nd'}] 
 
-calendarRouter.get('/api/calendarData', (req, res) => {
+calendarRouter.get('/', (req, res) => {
+  console.log('here');
   res.status(200).json({title, articles});
 });
 
