@@ -39,9 +39,15 @@ const users = {
   find(name, password) {
     return this.db.find(user => {
       if (user.name === name) {
-        if (user.password === password) return (null, user);
+        if (user.password === password) return (user);
       }
       return false;
+    })
+  },
+
+  findById(id) {
+    return this.db.find(user => {
+      return (user.id === id);
     })
   }
 }

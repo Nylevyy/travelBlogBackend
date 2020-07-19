@@ -10,16 +10,16 @@ const calendarRouter = require(path.resolve('src/controllers/routes/calendar/cal
 const app = express();
 const port = 3001;
 
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true,
+}
+
+app.use(cors(corsOptions))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.set('trust proxy', 1)
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
 
 const filestoreOptions = {};
 
@@ -28,9 +28,10 @@ app.use(session({
   secret: 'al jazair',
   resave: false,
   saveUninitialized: false,
+  name: 'travelBlogAccess',
   cookie: {
     path: '/',
-    secure: true,
+    httpOnly: true,
     maxAge: 60 * 60 * 24 * 1000,
   }
 }))
@@ -41,9 +42,10 @@ app.use(passport.session());
 app.use('/api/auth', authRouter);
 
 app.use((req, res, next) => {
-  if (req.isAuthenticated()) next();
+  if (req.isAuthenticated()) return next();
   res.sendStatus(401);
 })
+
 app.use('/api/calendarData', calendarRouter);
 
 app.listen(port, () => {

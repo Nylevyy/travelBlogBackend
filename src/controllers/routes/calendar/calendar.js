@@ -10,7 +10,6 @@ let title = 'titleSamp';
 const articles = [{title: '1st'}, {title: '2nd'}] 
 
 calendarRouter.get('/', (req, res) => {
-  console.log('here');
   res.status(200).json({title, articles});
 });
 

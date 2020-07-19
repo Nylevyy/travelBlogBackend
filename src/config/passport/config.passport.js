@@ -6,21 +6,21 @@ const users = require(path.resolve('src/models/users'));
 
 
 const findUser = (username, password, done) => {
-  return done(users.find(username, password));
+  const result = users.find(username, password);
+  if (!result) return done(null, false);
+  return done(null, result);
 }
 
 passport.use(new LocalStrategy(findUser));
+
 passport.serializeUser((user, done) => {
-  console.log('hi');
   done(null, user.id);
 });
 
 passport.deserializeUser((userId, done) => {
-  User.findById(userId)
-      .then((user) => {
-          done(null, user);
-      })
-      .catch(err => done(err))
+  const user = users.findById(userId);
+  if (!user) done(new Error())
+  done(null, user)
 });
 
 // , (err, user) => {
