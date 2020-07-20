@@ -36,9 +36,9 @@ const db = [
 
 const users = {
   db,
-  find(name, password) {
+  find(username, password) {
     return this.db.find(user => {
-      if (user.name === name) {
+      if (user.name === username) {
         if (user.password === password) return (user);
       }
       return false;
