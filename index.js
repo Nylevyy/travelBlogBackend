@@ -4,8 +4,8 @@ const cors = require('cors');
 const session = require('express-session');
 const passport = require('passport');
 const FileStore = require('session-file-store')(session);
-const authRouter = require(path.resolve('src/routes/auth/routes-auth'));
-const calendarRouter = require(path.resolve('src/routes/calendar/routes-calendar'));
+const authRouter = require(path.resolve('src/controllers/routes/auth/routes-auth'));
+const calendarRouter = require(path.resolve('src/controllers/routes/calendar/routes-calendar'));
 
 const app = express();
 const port = 3001;
@@ -26,9 +26,10 @@ const filestoreOptions = {};
 app.use(session({
   store: new FileStore(filestoreOptions),
   secret: 'al jazair',
-  resave: false,
+  resave: true,
   saveUninitialized: false,
   name: 'travelBlogAccess',
+  unset: 'destroy',
   cookie: {
     path: '/',
     httpOnly: true,
@@ -41,7 +42,7 @@ app.use(passport.session());
 
 app.use('/api/auth', authRouter);
 
-app.use((req, res, next) => {
+app.use('/', (req, res, next) => {
   if (req.isAuthenticated()) return next();
   res.sendStatus(401);
 })
