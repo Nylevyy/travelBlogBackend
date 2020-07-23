@@ -8,30 +8,35 @@ class Database {
   init() {
     this._db.run(`
       CREATE TABLE IF NOT EXISTS users (
-        userID INTEGER PRIMARY KEY NOT NULL,
+        userID TEXT PRIMARY KEY NOT NULL,
         username TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL
       );
     `);
     this._db.run(`
       CREATE TABLE IF NOT EXISTS articles (
-        articleID INTEGER PRIMARY KEY NOT NULL,
+        articleID TEXT PRIMARY KEY NOT NULL,
         title TEXT NOT NULL,
         description TEXT NOT NULL,
         date TEXT NOT NULL,
         location TEXT NOT NULL,
-        userID INT,
+        isImportant INTEGER NOT NULL, 
+        userID TEXT,
         FOREIGN KEY (userID)
           REFERENCES users (userID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
       );
     `);
     this._db.run(`
       CREATE TABLE IF NOT EXISTS titles (
-        titleID INTEGER PRIMARY KEY NOT NULL,
+        titleID TEXT PRIMARY KEY NOT NULL,
         title TEXT NOT NULL,
-        userID INT,
+        userID TEXT,
         FOREIGN KEY (userID)
           REFERENCES users (userID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
       );
     `);
   }
@@ -49,10 +54,11 @@ class Database {
 
   run(...sql) {
     return new Promise((res, rej) => {
-      this._db.run(...sql, (err) => {
-        console.log('err');
+      this._db.run(...sql, function(err) {
+        console.log(err);
+        console.log(sql);
         if (err) rej(err);
-        res();
+        res(this);
       });
     });
   }

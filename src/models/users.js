@@ -7,10 +7,9 @@ class Users {
   findOne({ username }, cb) {
     Data.connect()
       .then((db) => {
-        db.get(`SELECT * FROM users WHERE username = ?`, username)
+        db.get(`SELECT userID, username, password FROM users WHERE username = ?`, username)
           .then((user) => {
-              for (let key in user) return cb(null, user);
-              return cb(null, false);
+              return cb(null, user);
             })
             .catch((e) => cb(e))
             .finally(() => db.close());
@@ -21,11 +20,8 @@ class Users {
   findById(id) {
     return Data.connect()
       .then((db) => {
-        return db.get(`SELECT * FROM users WHERE userID = ?`, id)
-          .then((user) => {
-            for (let key in user) return user;
-            return null;
-          })
+        return db.get(`SELECT userID, username, password FROM users WHERE userID = ?`, id)
+          .then((user) => user)
           .catch(() => null)
           .finally(() => db.close());
       })    

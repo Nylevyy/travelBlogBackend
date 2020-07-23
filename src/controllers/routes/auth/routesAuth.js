@@ -2,10 +2,9 @@ const authRouter = require('express').Router();
 const path = require('path');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-require(path.resolve('src/controllers/routes/auth/config/config.passport'));
+require(path.resolve('src/controllers/services/config.passport'));
 
 authRouter.get('/', (req, res, next) => {
-  console.log(req.user);
   if (req.isAuthenticated()) {
     res.json({username: req.user.username});
     return;

@@ -4,8 +4,8 @@ const cors = require('cors');
 const session = require('express-session');
 const passport = require('passport');
 const FileStore = require('session-file-store')(session);
-const authRouter = require(path.resolve('src/controllers/routes/auth/routes-auth'));
-const calendarRouter = require(path.resolve('src/controllers/routes/calendar/routes-calendar'));
+const authRouter = require(path.resolve('src/controllers/routes/auth/routesAuth'));
+const calendarRouter = require(path.resolve('src/controllers/routes/calendar/routesCalendar'));
 
 const app = express();
 const port = 3001;
