@@ -55,8 +55,6 @@ class Database {
   run(...sql) {
     return new Promise((res, rej) => {
       this._db.run(...sql, function(err) {
-        console.log(err);
-        console.log(sql);
         if (err) rej(err);
         res(this);
       });
