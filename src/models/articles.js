@@ -1,6 +1,6 @@
 const path = require('path');
 const Database = require(path.resolve('src/plugins/Database'));
-const uuidv4 = require(path.resolve('src/helpers/uuid'));
+const { v4: uuidv4 } = require('uuid');
 
 const Data = new Database(path.resolve('src/database/sqliteDb.db'));
 
@@ -17,10 +17,11 @@ class Articles {
   }
  
   insert(article, userID) {
+    const articleID = uuidv4();
      return Data.connect()
       .then((db) => (
         db.run(`INSERT INTO articles VALUES (?, ?, ?, ?, ?, ?, ?)`, [
-          uuidv4(),
+          articleID,
           article.title,
           article.description,
           article.date,

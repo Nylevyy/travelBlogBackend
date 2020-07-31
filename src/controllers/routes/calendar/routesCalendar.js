@@ -7,10 +7,6 @@ const calendarRouter = express.Router();
 const articlesPath = '/articles';
 const titlePath = '/title';
 
-// temp
-let title = 'titleSamp';
-const articles = [{title: '1st'}, {title: '2nd'}] 
-
 calendarRouter.get('/', (req, res) => {
   calendar.aggregate(req.user.userID)
     .then((data) => {

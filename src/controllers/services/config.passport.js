@@ -1,5 +1,6 @@
 const passport = require('passport');
 const path = require('path');
+const bcrypt = require('bcrypt');
 const LocalStrategy = require('passport-local').Strategy;
 const Users = require(path.resolve('src/models/Users'));
 
@@ -9,10 +10,13 @@ const findUser = (username, password, done) => {
     if (!user) {
       return done(null, false, { message: 'Incorrect username.' });
     }
-    if (user.password !== password) {
-      return done(null, false, { message: 'Incorrect password.' });
-    }
-    return done(null, user);
+    return bcrypt.compare(password, user.password)
+      .then((isTrue) => {
+        if (!isTrue) {
+          return done(null, false, { message: 'Incorrect password.' });
+        }
+        return done(null, user);
+      })
   });
 }
 
