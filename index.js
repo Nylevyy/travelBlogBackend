@@ -25,7 +25,7 @@ const filestoreOptions = {};
 
 app.use(session({
   store: new FileStore(filestoreOptions),
-  secret: 'al jazair',
+  secret: process.env.SECRET || 'dev',
   resave: true,
   saveUninitialized: false,
   name: 'travelBlogAccess',

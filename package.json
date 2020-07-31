@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --ignore sessions/ index.js"
+    "start": "nodemon --ignore sessions/ index.js",
+    "build": "vite build",
+    "serve": "nodemon --ignore sessions/ dist/index.mjs"
   },
   "author": "",
   "license": "ISC",
@@ -16,7 +18,10 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "session-file-store": "^1.4.0",
-    "sqlite3": "^5.0.0",
+    "sqlite3": "5.1.7",
     "uuid": "^8.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "3.1.0"
   }
 }
